@@ -32,29 +32,30 @@ class otu(db.Model):
     otu_id = db.Column(db.Integer, primary_key=True)
     lowest_taxonomic_unit_found = db.Column(db.Text)
 
-
-#     SAMPLEID INTEGER
-# EVENT TEXT
-# ETHNICITY TEXT
-# GENDER TEXT
-# AGE INTEGER
-# WFREQ INTEGER
-# BBTYPE TEXT
-# LOCATION TEXT
-# COUNTRY012 TEXT
-# ZIP012 INTEGER
-# COUNTRY1319 TEXT
-# ZIP1319 INTEGER
-# DOG TEXT
-# CAT TEXT
-# IMPSURFACE013 INTEGER
-# NPP013 FLOAT
-# MMAXTEMP013 FLOAT
-# PFC013 FLOAT
-# IMPSURFACE1319 INTEGER
-# NPP1319 FLOAT
-# MMAXTEMP1319 FLOAT
-# PFC1319 FLOAT
+class metadata(db.Model):
+    __tablename__="samples_metadata"
+    sample_id = db.Column(db.Integer, primary_key=True) 
+    event = db.Column(db.Text)
+    ethnicity = db.Column(db.Text)
+    gender = db.Column(db.Text)
+    age = db.Column(db.Integer)
+    wfreq = db.Column(db.Integer)
+    bbtype = db.Column(db.Text)
+    location = db.Column(db.Text)
+    country012 = db.Column(db.Text)
+    zip012 = db.Column(db.Integer)
+    country1319 = db.Column(db.Text)
+    zip1319 = db.Column(db.Integer)
+    dog = db.Column(db.Text)
+    cat = db.Column(db.Text)
+    impsurface013 = db.Column(db.Integer)
+    npp013 = db.Column(db.Float)
+    mmaxtemp013 = db.Column(db.Float)
+    pfc013 = db.Column(db.Float)
+    impsurface1319 = db.Column(db.Integer)
+    npp1319 = db.Column(db.Float)
+    mmaxtemp1319 = db.Column(db.Float)
+    pfc1319 = db.Column(db.Float)
 
 
 #################################################
@@ -76,19 +77,29 @@ def otuout():
     return jsonify(df.to_dict(orient="records"))
    
 
-# @app.route("/metadata/<sample>")
-# def meta():
-#     return "here is the meta data"
+@app.route('/metadata/<sample>')
+@app.route("/metadata")
+def metadataout():
+    results = db.session.query(metadata.bbtype, metadata.ethnicity, metadata.gender, metadata.location).all()
+    df = pd.DataFrame(results)
+    return jsonify(df.to_dict(orient="records"))
+#  I am having issues with age and id(metadata.age, metadata.bbtype, metadata.ethnicity, metadata.gender, metadata.location, metadata.sample_id).all():
 
-# @app.route("/wfreq/<sample>")
-# def wfreq():
-#     return "here is the wfreq data"
+@app.route("/wfreq/<sample>")
+@app.route("/wfreq")
+def wfreq():
+    results = db.session.query(metadata.wfreq).all()
+    df = pd.DataFrame(results)
+    return jsonify(df.to_dict(orient="records"))
+
 
 # @app.route("/sample/<sample>")
+# @app.route("/sample)
 # def sample():
 #     return "here is the sample data"
 
 # create route that renders index.html template
+
 @app.route("/")
 def home():
     return render_template("index.html")
