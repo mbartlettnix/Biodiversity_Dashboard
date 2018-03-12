@@ -1,7 +1,6 @@
 # import necessary libraries
 from sqlalchemy import create_engine, inspect, func
 
-import numpy as np
 import pandas as pd
 
 from flask import (
@@ -34,7 +33,7 @@ class otu(db.Model):
 
 class metadata(db.Model):
     __tablename__="samples_metadata"
-    sample_id = db.Column(db.Integer, primary_key=True) 
+    sampleid = db.Column(db.Integer, primary_key=True) 
     event = db.Column(db.Text)
     ethnicity = db.Column(db.Text)
     gender = db.Column(db.Text)
@@ -77,13 +76,15 @@ def otuout():
     return jsonify(df.to_dict(orient="records"))
    
 
-@app.route('/metadata/<sample>')
+@app.route('/metadata/<sample>') 
 @app.route("/metadata")
-def metadataout():
-    results = db.session.query(metadata.bbtype, metadata.ethnicity, metadata.gender, metadata.location).all()
+def metadataout()##tried passing in sample
+    results = db.session.query(metadata.age,metadata.bbtype, metadata.ethnicity, metadata.gender, metadata.location,metadata.sampleid).all()
     df = pd.DataFrame(results)
+    # for selection in df:
+    #     if sample == (selection['sampleid']):
+    #         return jsonify(selection)
     return jsonify(df.to_dict(orient="records"))
-#  I am having issues with age and id(metadata.age, metadata.bbtype, metadata.ethnicity, metadata.gender, metadata.location, metadata.sample_id).all():
 
 @app.route("/wfreq/<sample>")
 @app.route("/wfreq")
@@ -93,12 +94,11 @@ def wfreq():
     return jsonify(df.to_dict(orient="records"))
 
 
-# @app.route("/sample/<sample>")
-# @app.route("/sample)
-# def sample():
-#     return "here is the sample data"
+@app.route("/sample/<sample>")
+@app.route("/sample")
+def sample():
+    return "here is the sample data"
 
-# create route that renders index.html template
 
 @app.route("/")
 def home():

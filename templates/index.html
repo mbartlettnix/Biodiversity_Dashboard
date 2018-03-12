@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="style.css" /> -->
     <title>Naval Biodiversity</title>
 </head>
 <body>
@@ -20,12 +20,12 @@
     </div>
     <div class="container">
         <div class ="row">
-            <div class=" col-sm-2">
+            <div class=" col-md-2">
                 <div class ="panel panel-default">
                         <div class="panel-body">
-                            <h3>Select Sample ID</h3>
-                            <select id="selDataset" onchange="optionChanged(this.value)">
-                                    <option value="volvo">Volvo</option>
+                            <h3 class="col-sm-12">Select Sample ID</h3>
+                            <select class="col-sm-12" id="selDataset" onchange="optionChanged(this.value)">
+                                   
                             </select>
                         </div>
                     </div>
@@ -41,58 +41,18 @@
             <div class="col-sm-5">
                 <h3 align="center">Pie Plot Will Go Here</h3>
                 <div id="pie_plot"></div>
-                <script src="{{ url_for('static', filename='js/app.js') }}"></script>
             </div>
             <div class="col-sm-5">
                 <h3 align="center">Gauge Will Go Here</h3>
-                <div id="gauge"></div>
-                <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+                <div class="col-sm-11" id="gauge"></div>
             </div>
         </div>
         <div class="row">
             <h3 align="center">Bubble Plot Will Go Here</h3>
             <div id="bubbleplot"></div>
+            <script src="{{ url_for('static', filename='js/app2.js') }}"></script>
             <script src="{{ url_for('static', filename='js/app.js') }}"></script>
         </div>
     </div>
-    <!-- <script>
-    /* data route */
-      var url = "/data";
-
-      function buildPlot() {
-          Plotly.d3.json(url, function(error, response) {
-
-              console.log(response);
-              var trace1 = {
-                  type: "scatter",
-                  mode: "lines",
-                  name: "Bigfoot Sightings",
-                  x: response.map(row => row.months),
-                  y: response.map(row => row.sightings),
-                  line: {
-                      color: "#17BECF"
-                  }
-              };
-
-              var data = [trace1];
-
-              var layout = {
-                  title: "Bigfoot Sightings Per Year",
-                  xaxis: {
-                      type: "date"
-                  },
-                  yaxis: {
-                      autorange: true,
-                      type: "linear"
-                  }
-              };
-
-              Plotly.newPlot("plot", data, layout);
-          });
-      }
-
-      buildPlot();
-
-    </script> -->
 </body>
 </html>
